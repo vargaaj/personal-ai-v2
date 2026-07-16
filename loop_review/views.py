@@ -29,38 +29,129 @@ LOOP_ICONS = {
     "ai_news": "newspaper",
 }
 
+_THEME_APPLIED = False
+
 
 def create_ui(storage: LoopStorage) -> None:
-    apply_theme()
     register_inbox_page(storage)
     register_loop_pages(storage)
     register_settings_page(storage)
 
 
 def apply_theme() -> None:
+    global _THEME_APPLIED
+    if _THEME_APPLIED:
+        return
+
     ui.colors(primary="#256f72", secondary="#a33f2f", accent="#d69e2e", positive="#4f8a5b")
     ui.add_head_html(
         """
         <style>
+            * { box-sizing: border-box; }
             body { background: #f7f7f2; color: #252525; }
             .app-shell { max-width: 1380px; margin: 0 auto; }
+            .app-page { min-width: 0; }
+            .app-header { min-height: 56px; }
+            .app-header-row { min-height: 56px; }
+            .app-drawer .q-drawer__content { overflow-x: hidden; }
             .surface { background: #ffffff; border: 1px solid #deded6; border-radius: 8px; }
             .soft-panel { background: #fbfbf7; border: 1px solid #e4e1d8; border-radius: 8px; }
+            .content-layout { flex-wrap: nowrap; }
+            .content-panel { min-width: 0; }
+            .loop-link { display: block; min-width: 0; }
+            .loop-card { min-height: 112px; }
             .muted { color: #686760; }
             .item-row { min-height: 44px; }
             .item-row:hover { background: #f1f4ef; }
+            .item-main { min-width: 0; }
+            .item-row .q-field__native,
+            .item-row .q-checkbox__label,
+            .item-main,
+            .item-details,
+            .metadata-chip,
+            .workout-checkbox .q-checkbox__label { overflow-wrap: anywhere; }
             .item-checkbox .q-checkbox__inner { margin-top: 0; }
             .item-details { white-space: pre-line; line-height: 1.45; }
             .metadata-chip { background: #efeee8; border-radius: 4px; padding: 1px 6px; }
+            .metadata-row { flex-wrap: wrap; }
             .workout-card { background: #fbfbf7; border: 1px solid #e4e1d8; border-radius: 8px; }
             .workout-card.done { opacity: 0.68; }
             .workout-checkbox .q-checkbox__label { font-weight: 600; line-height: 1.35; }
             .json-preview { max-height: 560px; overflow: auto; }
             .json-editor textarea { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; line-height: 1.45; }
+            .settings-path { min-width: 0; overflow-x: auto; }
+
+            @media (min-width: 1024px) {
+                .mobile-menu-button { display: none !important; }
+            }
+
+            @media (min-width: 901px) {
+                .content-layout > .content-panel { flex: 1 1 0; }
+            }
+
+            @media (max-width: 900px) {
+                .app-shell { max-width: none; }
+                .app-page { padding: 12px !important; gap: 12px !important; }
+                .app-header-row { padding-left: 8px !important; padding-right: 8px !important; }
+                .page-header {
+                    align-items: flex-start !important;
+                    gap: 8px !important;
+                }
+                .page-title {
+                    font-size: 1.5rem !important;
+                    line-height: 2rem !important;
+                }
+                .page-actions { flex-shrink: 0; }
+                .content-layout {
+                    flex-direction: column !important;
+                    gap: 12px !important;
+                }
+                .content-panel,
+                .surface,
+                .soft-panel { padding: 12px !important; }
+                .loop-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; gap: 10px !important; }
+                .loop-card { min-height: 96px; }
+                .section-heading { align-items: flex-start !important; }
+                .item-row {
+                    flex-wrap: wrap;
+                    align-items: flex-start !important;
+                    gap: 6px !important;
+                    padding: 8px !important;
+                    border: 1px solid #ece9df;
+                    background: #fffdf8;
+                }
+                .item-main { flex: 1 1 calc(100% - 48px); }
+                .item-id {
+                    flex: 0 0 100%;
+                    padding-left: 32px;
+                }
+                .item-action { margin-left: auto; }
+                .workout-card { padding: 10px !important; }
+                .json-preview { max-height: 320px; }
+                .settings-row {
+                    align-items: flex-start !important;
+                    flex-direction: column !important;
+                    gap: 8px !important;
+                }
+                .settings-path {
+                    width: 100%;
+                    white-space: pre-wrap;
+                    word-break: break-word;
+                }
+            }
+
+            @media (max-width: 520px) {
+                .loop-grid { grid-template-columns: 1fr !important; }
+                .app-title { font-size: 1rem !important; }
+                .content-panel,
+                .surface,
+                .soft-panel { border-radius: 6px; }
+            }
         </style>
         """,
         shared=True,
     )
+    _THEME_APPLIED = True
 
 
 def register_inbox_page(storage: LoopStorage) -> None:
@@ -79,19 +170,21 @@ def register_inbox_page(storage: LoopStorage) -> None:
             ]
             open_items = [(loop_id, title, item) for loop_id, title, item in all_items if not item.checked]
 
-            with ui.column().classes("app-shell w-full gap-4 p-4"):
-                with ui.row().classes("w-full items-center justify-between gap-3"):
+            with ui.column().classes("app-shell app-page w-full gap-4 p-4"):
+                with ui.row().classes("page-header w-full items-center justify-between gap-3"):
                     with ui.column().classes("gap-0"):
-                        ui.label("Action Inbox").classes("text-3xl font-semibold")
+                        ui.label("Action Inbox").classes("page-title text-3xl font-semibold")
                         ui.label(f"{len(open_items)} open items across {len(loops)} loops").classes("muted")
-                    ui.button(icon="refresh", on_click=inbox_content.refresh).props("flat round").tooltip("Refresh")
+                    ui.button(icon="refresh", on_click=inbox_content.refresh).props("flat round").classes("page-actions").tooltip(
+                        "Refresh"
+                    )
 
-                with ui.grid(columns="repeat(auto-fit, minmax(180px, 1fr))").classes("w-full gap-3"):
+                with ui.grid(columns="repeat(auto-fit, minmax(180px, 1fr))").classes("loop-grid w-full gap-3"):
                     for loop in loops:
-                        with ui.link(target=f"/loop/{loop.id}").classes("no-underline text-black"):
-                                with ui.column().classes("surface p-4 gap-1 w-full"):
-                                    ui.icon(LOOP_ICONS[loop.id]).classes("text-2xl text-primary")
-                                    ui.label(loop.title).classes("font-semibold")
+                        with ui.link(target=f"/loop/{loop.id}").classes("loop-link no-underline text-black"):
+                            with ui.column().classes("loop-card surface p-4 gap-1 w-full"):
+                                ui.icon(LOOP_ICONS[loop.id]).classes("text-2xl text-primary")
+                                ui.label(loop.title).classes("font-semibold")
                                 ui.label(f"{loop.open_item_count} open / {loop.item_count} total").classes("muted text-sm")
 
                 if not open_items:
@@ -103,7 +196,7 @@ def register_inbox_page(storage: LoopStorage) -> None:
                         grouped = list(group)
                         title = grouped[0][1]
                         with ui.column().classes("surface w-full p-4 gap-2"):
-                            with ui.row().classes("w-full items-center justify-between"):
+                            with ui.row().classes("section-heading w-full items-center justify-between gap-2"):
                                 with ui.row().classes("items-center gap-2"):
                                     ui.icon(LOOP_ICONS[loop_id]).classes("text-primary")
                                     ui.label(title).classes("text-xl font-semibold")
@@ -119,8 +212,8 @@ def register_loop_pages(storage: LoopStorage) -> None:
     def loop_page(loop_id: str) -> None:
         if loop_id not in LOOP_TITLES:
             render_shell(storage, active="", title="Unknown Loop")
-            with ui.column().classes("app-shell w-full p-4"):
-                ui.label("Unknown loop").classes("text-2xl font-semibold")
+            with ui.column().classes("app-shell app-page w-full p-4"):
+                ui.label("Unknown loop").classes("page-title text-2xl font-semibold")
                 ui.link("Back to inbox", "/").classes("text-primary")
             return
 
@@ -177,17 +270,17 @@ def register_loop_pages(storage: LoopStorage) -> None:
             refresh()
             ui.notify("Added", type="positive")
 
-        with ui.column().classes("app-shell w-full gap-4 p-4"):
-            with ui.row().classes("w-full items-center justify-between gap-3"):
+        with ui.column().classes("app-shell app-page w-full gap-4 p-4"):
+            with ui.row().classes("page-header w-full items-center justify-between gap-3"):
                 with ui.column().classes("gap-0"):
-                    ui.label(LOOP_TITLES[loop_id]).classes("text-3xl font-semibold")
+                    ui.label(LOOP_TITLES[loop_id]).classes("page-title text-3xl font-semibold")
                     status_label = ui.label(format_file_status(state["loop"])).classes("muted")
-                with ui.row().classes("gap-2"):
+                with ui.row().classes("page-actions gap-2"):
                     ui.button(icon="refresh", on_click=reload_loop).props("flat round").tooltip("Reload")
                     ui.button(icon="save", on_click=save_loop).props("unelevated round color=primary").tooltip("Save")
 
-            with ui.row().classes("w-full gap-4 items-start"):
-                with ui.column().classes("surface p-4 gap-3 w-full"):
+            with ui.row().classes("content-layout w-full gap-4 items-start"):
+                with ui.column().classes("content-panel surface p-4 gap-3 w-full"):
                     with ui.row().classes("items-center gap-2"):
                         ui.icon("checklist").classes("text-primary")
                         ui.label(open_items_title(loop_id)).classes("text-lg font-semibold")
@@ -232,7 +325,7 @@ def register_loop_pages(storage: LoopStorage) -> None:
 
                     loop_content()
 
-                with ui.column().classes("surface p-4 gap-3 w-full"):
+                with ui.column().classes("content-panel surface p-4 gap-3 w-full"):
                     with ui.row().classes("items-center gap-2"):
                         ui.icon("edit_note").classes("text-secondary")
                         ui.label("JSON Editor").classes("text-lg font-semibold")
@@ -246,32 +339,36 @@ def register_settings_page(storage: LoopStorage) -> None:
     @ui.page("/settings")
     def settings_page() -> None:
         render_shell(storage, active="settings", title="Settings")
-        with ui.column().classes("app-shell w-full gap-4 p-4"):
-            ui.label("Settings").classes("text-3xl font-semibold")
+        with ui.column().classes("app-shell app-page w-full gap-4 p-4"):
+            ui.label("Settings").classes("page-title text-3xl font-semibold")
             with ui.column().classes("surface p-4 gap-3 w-full"):
                 ui.label("Loop Folder").classes("text-lg font-semibold")
-                ui.code(str(storage.loops_dir)).classes("w-full")
+                ui.code(str(storage.loops_dir)).classes("settings-path w-full")
             with ui.column().classes("surface p-4 gap-3 w-full"):
                 ui.label("Loop Files").classes("text-lg font-semibold")
                 for loop in storage.list_loops():
-                    with ui.row().classes("w-full items-center justify-between gap-4"):
+                    with ui.row().classes("settings-row w-full items-center justify-between gap-4"):
                         with ui.row().classes("items-center gap-2"):
                             ui.icon(LOOP_ICONS[loop.id]).classes("text-primary")
                             ui.label(loop.title).classes("font-medium")
-                        ui.code(loop.path).classes("grow")
+                        ui.code(loop.path).classes("settings-path grow")
                         ui.badge("found" if loop.exists else "missing", color="positive" if loop.exists else "warning")
 
 
 def render_shell(storage: LoopStorage, active: str, title: str) -> None:
+    apply_theme()
     ui.page_title(f"{title} - Loop Review Console")
-    with ui.header().classes("bg-white text-black border-b border-gray-200"):
-        with ui.row().classes("app-shell w-full items-center justify-between px-4"):
+    drawer = ui.left_drawer(value=None, bordered=True).classes("app-drawer bg-white border-r border-gray-200")
+
+    with ui.header().classes("app-header bg-white text-black border-b border-gray-200"):
+        with ui.row().classes("app-header-row app-shell w-full items-center justify-between px-4"):
             with ui.row().classes("items-center gap-2"):
+                ui.button(icon="menu", on_click=drawer.toggle).props("flat round").classes("mobile-menu-button").tooltip("Menu")
                 ui.icon("dashboard").classes("text-primary text-2xl")
-                ui.label("Loop Review").classes("text-lg font-semibold")
+                ui.label("Loop Review").classes("app-title text-lg font-semibold")
             ui.button(icon="settings", on_click=lambda: ui.navigate.to("/settings")).props("flat round").tooltip("Settings")
 
-    with ui.left_drawer(value=True).classes("bg-white border-r border-gray-200"):
+    with drawer:
         with ui.column().classes("w-full gap-1 p-3"):
             nav_button("Inbox", "/", "inbox", active == "inbox")
             for loop_id, title in LOOP_TITLES.items():
@@ -320,7 +417,7 @@ def render_health_workouts(
 
     for section in loop.sections:
         with ui.column().classes("soft-panel w-full p-3 gap-2"):
-            with ui.row().classes("w-full items-center justify-between gap-2"):
+            with ui.row().classes("section-heading w-full items-center justify-between gap-2"):
                 ui.label(section.title).classes("font-semibold")
                 ui.badge(f"{sum(1 for item in section.items if not item.checked)} open", color="primary")
             if not section.items:
@@ -340,7 +437,7 @@ def render_section_panel(
 ) -> None:
     open_items = [item for item in section.items if not item.checked]
     with ui.column().classes("soft-panel w-full p-3 gap-2"):
-        with ui.row().classes("w-full items-center justify-between gap-2"):
+        with ui.row().classes("section-heading w-full items-center justify-between gap-2"):
             ui.label(section.title).classes("font-semibold")
             ui.badge(f"{len(open_items)} open", color="primary")
         if not open_items:
@@ -394,7 +491,7 @@ def render_workout_card(
             ui.checkbox(item.text, value=item.checked, on_change=lambda _: toggle_item()).props("dense").classes(
                 "workout-checkbox grow"
             )
-            ui.label(item.id).classes("muted text-xs")
+            ui.label(item.id).classes("item-id muted text-xs")
         ui.label("Done" if item.checked else "Ready").classes("muted text-xs pl-8")
 
         if item.details:
@@ -421,7 +518,7 @@ def render_item_row(
 
     with ui.row().classes("item-row w-full items-start gap-2 px-2 py-1 rounded"):
         ui.checkbox(value=item.checked, on_change=lambda _: toggle_item()).props("dense").classes("item-checkbox")
-        with ui.column().classes("gap-0 grow"):
+        with ui.column().classes("item-main gap-0 grow"):
             ui.label(item.text).classes("w-full")
             if item.details:
                 ui.label(item.details).classes("item-details muted text-sm")
@@ -430,8 +527,8 @@ def render_item_row(
             ui.button(
                 icon="open_in_new",
                 on_click=lambda link=item.link: ui.run_javascript(f"window.open({json.dumps(link)}, '_blank')"),
-            ).props("flat round").tooltip("Open link")
-        ui.label(item.id).classes("muted text-xs")
+            ).props("flat round").classes("item-action").tooltip("Open link")
+        ui.label(item.id).classes("item-id muted text-xs")
 
 
 def render_item_metadata(item: LoopItem) -> None:
@@ -454,7 +551,7 @@ def render_item_metadata(item: LoopItem) -> None:
     if not values:
         return
 
-    with ui.row().classes("gap-1 mt-1"):
+    with ui.row().classes("metadata-row gap-1 mt-1"):
         for key, value in values:
             ui.label(f"{key}: {value}").classes("metadata-chip muted text-xs")
 
