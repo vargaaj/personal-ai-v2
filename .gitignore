@@ -6,3 +6,7 @@ __pycache__/
 *.egg-info/
 logs/
 *data
+.pnpm-store/
+# React/Vite dependencies and production output are generated locally.
+frontend/node_modules/
+frontend/dist/
