@@ -34,7 +34,6 @@
   }
 
   html {
-    min-width: 320px;
     background: var(--milkglass);
   }
 
@@ -42,7 +41,6 @@
      instrument surface without becoming semantic or decorative content. */
   body {
     margin: 0;
-    min-width: 320px;
     min-height: 100vh;
     background:
       linear-gradient(90deg, rgba(47, 107, 95, 0.025) 1px, transparent 1px) 0 0 / 72px 72px,
@@ -214,7 +212,7 @@
   .nav-item {
     position: relative;
     width: 100%;
-    min-height: 43px;
+    min-height: 44px;
     display: grid;
     grid-template-columns: 28px minmax(0, 1fr) auto;
     align-items: center;
@@ -408,7 +406,7 @@
     backdrop-filter: blur(16px);
   }
 
-  /* The segmented surface allows one Open, All, or Completed view at a time. */
+  /* The segmented surface allows one Open, All, or Done view at a time. */
   .filter-group {
     display: flex;
     align-items: center;
@@ -419,7 +417,8 @@
   }
 
   .filter-group button {
-    min-height: 32px;
+    min-width: 44px;
+    min-height: 44px;
     padding: 0 11px;
     border: 0;
     border-radius: 7px;
@@ -445,7 +444,7 @@
 
   .search-field {
     width: min(230px, 100%);
-    min-height: 36px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -464,6 +463,14 @@
     background: var(--porcelain);
   }
 
+  /* Keyboard focus receives the same high-contrast two-layer treatment as
+     standalone controls, but it surrounds the complete search surface instead
+     of only the small text-editing region. */
+  .search-field:has(input:focus-visible) {
+    outline: 2px solid var(--porcelain);
+    box-shadow: 0 0 0 4px var(--iris);
+  }
+
   .search-field input {
     width: 100%;
     min-width: 0;
@@ -479,6 +486,7 @@
   }
 
   .search-field input:focus-visible {
+    outline: 0;
     box-shadow: none;
   }
 
@@ -522,11 +530,11 @@
      hover and keyboard focus with the same action. */
   .rail-stop {
     position: absolute;
-    top: 2px;
-    left: 1px;
+    top: -5px;
+    left: -6px;
     z-index: 2;
-    width: 29px;
-    height: 29px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
     padding: 0;
@@ -549,7 +557,7 @@
   /* Hidden until interaction so the rail stays quiet during ordinary scanning. */
   .rail-hint {
     position: absolute;
-    left: 24px;
+    left: 38px;
     z-index: 3;
     padding: 4px 7px;
     border: 1px solid var(--line);
@@ -646,7 +654,7 @@
   .entry-row {
     min-width: 0;
     display: grid;
-    grid-template-columns: 45px minmax(0, 1fr) 38px;
+    grid-template-columns: 45px minmax(0, 1fr) 44px;
     align-items: start;
     padding: 17px 12px 17px 9px;
     border-bottom: 1px solid #e5ebe6;
@@ -775,8 +783,8 @@
 
   .entry-link,
   .entry-link-spacer {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
 
   /* Square link targets stay aligned with the invisible spacer used by rows that
@@ -830,7 +838,7 @@
   }
 
   .empty-state button {
-    min-height: 38px;
+    min-height: 44px;
     margin-top: 18px;
     padding: 0 14px;
     border: 1px solid var(--juniper);
@@ -1011,7 +1019,7 @@
     }
 
     .rail-stop {
-      left: -3px;
+      left: -11px;
     }
 
     .area-heading {
@@ -1030,12 +1038,12 @@
     }
 
     .entry-row {
-      grid-template-columns: 40px minmax(0, 1fr) 32px;
+      grid-template-columns: 44px minmax(0, 1fr) 44px;
       padding: 15px 8px 15px 5px;
     }
 
     .check-control {
-      width: 40px;
+      width: 44px;
     }
 
     .entry-copy h3 {
@@ -1048,7 +1056,7 @@
 
     .entry-link,
     .entry-link-spacer {
-      width: 32px;
+      width: 44px;
     }
   }
 
