@@ -53,8 +53,8 @@ export const initialAreas: ReviewArea[] = [
           { label: "Received", value: "Yesterday" },
         ],
       },
-      // A completed entry keeps the Recently completed filter populated from
-      // the first render and tests the restored-entry interaction.
+      // A completed entry keeps the Done filter populated from the first
+      // render and tests the restored-entry interaction.
       {
         id: "newsletter-archive",
         title: "Archive last week's household newsletter",

@@ -82,9 +82,9 @@ A single continuous rail stitches the review groups together. Each area is an ac
 
 ## Main-screen behavior
 
-The Review screen opens with the date and a plain status sentence such as “12 entries need a decision across 5 areas.” A compact filter row offers **Open**, **All**, and **Recently completed**, plus a text search. Area sections follow the cadence rail. Each entry supports completion, readable details, relevant metadata, and an external link when present. Add/edit interactions use a focused sheet on desktop and a full-height dialog on mobile; raw JSON is not part of the everyday workflow.
+The Review screen opens with the date and a plain status sentence such as “12 entries need a decision across 5 areas.” A compact filter row offers **Open**, **All**, and **Done**, plus a text search. “Done” intentionally describes completion state without implying a recency window until the domain model includes completion timestamps. Area sections follow the cadence rail. Each entry supports completion, readable details, relevant metadata, and an external link when present. Add/edit interactions use a focused sheet on desktop and a full-height dialog on mobile; raw JSON is not part of the everyday workflow.
 
-Empty states give a next action (“Nothing needs review. Show recently completed”) rather than praise or filler. Loading uses stable skeleton rows, errors identify the affected area, and optimistic completion remains reversible until persistence succeeds.
+Empty states give a next action (“Nothing needs review. Show done entries”) rather than praise or filler. Loading uses stable skeleton rows, errors identify the affected area, and optimistic completion remains reversible until persistence succeeds.
 
 ## Critique and revision
 

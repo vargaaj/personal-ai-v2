@@ -29,7 +29,7 @@ export interface EntryMetadata {
   attention?: boolean;
 }
 
-/** A single actionable or recently completed piece of personal work. */
+/** A single actionable or completed piece of personal work. */
 export interface ReviewEntry {
   /** Stable identity used when updating one entry without relying on display text. */
   id: string;
