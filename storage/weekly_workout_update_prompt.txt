@@ -1,0 +1,17 @@
+Update the weekly workout routine JSON using the user's requested change.
+
+Preserve the existing JSON style and schema exactly:
+- Return one valid JSON object only.
+- Do not wrap the response in markdown.
+- Keep the top-level keys: routine_name, version, last_updated, goal, preferences, week.
+- Keep week as an array of seven day objects.
+- Keep each day object with the same keys: day, focus, duration_minutes, intensity, warmup, exercises, cooldown.
+- Keep each exercise object with the same keys: name, sets, reps, notes.
+- Use strings for day, focus, intensity, exercise name, reps, and notes.
+- Use numbers for version, session_length_minutes, duration_minutes, and sets.
+- Use arrays for equipment, warmup, exercises, and cooldown.
+- Preserve the rest day unless the user's requested change specifically says to move it.
+- Increment version by 1.
+- Set last_updated to the current date.
+
+Make the smallest update that satisfies the requested change while keeping the weekly routine balanced and realistic.

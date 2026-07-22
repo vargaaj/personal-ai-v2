@@ -1,0 +1,99 @@
+{
+	"routine_name": "Weekly Strength And Conditioning",
+	"version": 3,
+	"last_updated": "2026-07-20",
+	"goal": "Build consistent full-body strength while keeping cardio and mobility balanced.",
+	"preferences": {
+		"experience_level": "beginner",
+		"session_length_minutes": 45,
+		"equipment": ["dumbbells", "resistance bands", "yoga mat"],
+		"rest_day_preference": "Sunday"
+	},
+	"week": [
+		{
+			"day": "Monday",
+			"focus": "Upper Body Strength",
+			"duration_minutes": 45,
+			"intensity": "moderate",
+			"warmup": ["5 minutes brisk walk", "arm circles", "band pull-aparts"],
+			"exercises": [
+				{"name": "Dumbbell Bench Press", "sets": 3, "reps": "8-10", "notes": "Use a weight that leaves 2 reps in reserve."},
+				{"name": "One-Arm Dumbbell Row", "sets": 3, "reps": "10 each side", "notes": "Keep the back flat and pull elbow toward ribs."},
+				{"name": "Dumbbell Shoulder Press", "sets": 3, "reps": "8-10", "notes": "Avoid arching the lower back."}
+			],
+			"cooldown": ["chest stretch", "lat stretch", "slow nasal breathing"]
+		},
+		{
+			"day": "Tuesday",
+			"focus": "Lower Body Strength",
+			"duration_minutes": 45,
+			"intensity": "moderate",
+			"warmup": ["bodyweight squats", "glute bridges", "walking lunges"],
+			"exercises": [
+				{"name": "Goblet Squat", "sets": 3, "reps": "10-12", "notes": "Keep chest tall and knees tracking over toes."},
+				{"name": "Romanian Deadlift", "sets": 3, "reps": "8-10", "notes": "Hinge at the hips and keep dumbbells close to legs."},
+				{"name": "Reverse Lunge", "sets": 3, "reps": "8 each side", "notes": "Step back softly and control the descent."}
+			],
+			"cooldown": ["hamstring stretch", "quad stretch", "calf stretch"]
+		},
+		{
+			"day": "Wednesday",
+			"focus": "Cardio And Core",
+			"duration_minutes": 35,
+			"intensity": "easy",
+			"warmup": ["5 minutes easy walk", "hip circles", "torso rotations"],
+			"exercises": [
+				{"name": "Zone 2 Cardio", "sets": 1, "reps": "20 minutes", "notes": "Keep effort conversational."},
+				{"name": "Plank", "sets": 3, "reps": "30 seconds", "notes": "Keep ribs down and glutes lightly squeezed."},
+				{"name": "Dead Bug", "sets": 3, "reps": "8 each side", "notes": "Move slowly and keep lower back gently pressed down."}
+			],
+			"cooldown": ["child's pose", "figure-four stretch", "deep breathing"]
+		},
+		{
+			"day": "Thursday",
+			"focus": "Full Body Strength",
+			"duration_minutes": 45,
+			"intensity": "moderate",
+			"warmup": ["jumping jacks", "band rows", "bodyweight good mornings"],
+			"exercises": [
+				{"name": "Dumbbell Deadlift", "sets": 3, "reps": "8-10", "notes": "Drive through the floor and stand tall."},
+				{"name": "Push-Up", "sets": 3, "reps": "6-10", "notes": "Use an incline if needed to keep form clean."},
+				{"name": "Resistance Band Row", "sets": 3, "reps": "12", "notes": "Pause briefly with shoulder blades squeezed."}
+			],
+			"cooldown": ["shoulder stretch", "hip flexor stretch", "easy walk"]
+		},
+		{
+			"day": "Friday",
+			"focus": "Conditioning",
+			"duration_minutes": 30,
+			"intensity": "moderate",
+			"warmup": ["5 minutes easy cardio", "leg swings", "arm swings"],
+			"exercises": [
+				{"name": "Interval Walk Or Bike", "sets": 8, "reps": "1 minute hard, 1 minute easy", "notes": "Hard intervals should feel challenging but controlled."},
+				{"name": "Farmer Carry", "sets": 4, "reps": "30 seconds", "notes": "Walk tall with shoulders down and core braced."}
+			],
+			"cooldown": ["slow walk", "calf stretch", "box breathing"]
+		},
+		{
+			"day": "Saturday",
+			"focus": "Mobility And Recovery",
+			"duration_minutes": 30,
+			"intensity": "easy",
+			"warmup": ["easy walk", "neck rolls", "ankle circles"],
+			"exercises": [
+				{"name": "Yoga Flow", "sets": 1, "reps": "15 minutes", "notes": "Move slowly through comfortable ranges of motion."},
+				{"name": "Light Core Circuit", "sets": 2, "reps": "8-10 each movement", "notes": "Choose bird dogs, side planks, and glute bridges."}
+			],
+			"cooldown": ["long exhale breathing", "gentle forward fold", "supine twist"]
+		},
+		{
+			"day": "Sunday",
+			"focus": "Rest",
+			"duration_minutes": 0,
+			"intensity": "rest",
+			"warmup": [],
+			"exercises": [],
+			"cooldown": ["optional easy walk", "light stretching"]
+		}
+	]
+}
